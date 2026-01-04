@@ -15,10 +15,10 @@ type Store = {
   id: number;
   name: string;
   description: string;
-  icon?: keyof typeof Ionicons.glyphMap; // demo-only
+  icon?: keyof typeof Ionicons.glyphMap;
 };
 
-// Demo stores aligned with SQL schema + frontend-only icons
+// Frontend-only demo stores (aligned with SQL IDs)
 const DEMO_STORES: Store[] = [
   {
     id: 1,
@@ -37,6 +37,18 @@ const DEMO_STORES: Store[] = [
     name: 'Home Essentials',
     description: 'Everything you need for your home',
     icon: 'home-outline',
+  },
+  {
+    id: 4,
+    name: 'Book Haven',
+    description: 'Books, stationery, and study materials',
+    icon: 'book-outline',
+  },
+  {
+    id: 5,
+    name: 'Fitness Hub',
+    description: 'Fitness gear and wellness products',
+    icon: 'barbell-outline',
   },
 ];
 
