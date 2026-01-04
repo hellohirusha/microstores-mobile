@@ -1,17 +1,17 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-
-import StoreListScreen from '../screens/StoreListScreen';
+import StoresStack from './StoresStack'; // <- changed
 import CartScreen from '../screens/CartScreen';
 import OrdersScreen from '../screens/OrdersScreen';
-import { useCart } from '../context/CartContext';
+import { Ionicons } from '@expo/vector-icons';
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
+import { View, Text, StyleSheet } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
 const BuyerTabs = () => {
-  const { cartItems } = useCart(); // ✅ SAFE
+  const { cartItems } = useContext(CartContext);
 
   return (
     <Tab.Navigator
@@ -20,12 +20,11 @@ const BuyerTabs = () => {
         tabBarActiveTintColor: '#4CAF50',
         tabBarInactiveTintColor: '#888',
         tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap =
-            route.name === 'Stores'
-              ? 'storefront-outline'
-              : route.name === 'Cart'
-              ? 'cart-outline'
-              : 'receipt-outline';
+          let iconName: keyof typeof Ionicons.glyphMap = 'alert-circle-outline';
+
+          if (route.name === 'Stores') iconName = 'storefront-outline';
+          else if (route.name === 'Cart') iconName = 'cart-outline';
+          else if (route.name === 'Orders') iconName = 'receipt-outline';
 
           if (route.name === 'Cart' && cartItems.length > 0) {
             return (
@@ -42,7 +41,7 @@ const BuyerTabs = () => {
         },
       })}
     >
-      <Tab.Screen name="Stores" component={StoreListScreen} />
+      <Tab.Screen name="Stores" component={StoresStack} /> {/* <- changed */}
       <Tab.Screen name="Cart" component={CartScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
     </Tab.Navigator>
