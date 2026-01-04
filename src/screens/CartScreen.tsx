@@ -36,7 +36,7 @@ const CartScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
+  container: { marginTop: 45, flex: 1, padding: 16 },
   card: { padding: 12, backgroundColor: '#fff', marginBottom: 8, borderRadius: 8 },
   name: { fontWeight: 'bold', fontSize: 16 },
   total: { fontSize: 18, fontWeight: 'bold', marginVertical: 16 },

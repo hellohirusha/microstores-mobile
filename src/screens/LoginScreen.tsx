@@ -9,7 +9,7 @@ export default function LoginScreen() {
 
   const handleLogin = () => {
     // Mock login for now
-    if (email === 'test@shop.com' && password === 'Test1234') {
+    if (email === 'test@shop.com' && password === 'test1234') {
       login('mock-token'); // store token in context
     } else {
       alert('Invalid credentials');

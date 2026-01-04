@@ -35,7 +35,7 @@ const OrdersScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
+  container: { marginTop: 45, flex: 1, padding: 16 },
   title: { fontSize: 20, fontWeight: 'bold', marginBottom: 16 },
   card: { padding: 12, backgroundColor: '#fff', marginBottom: 12, borderRadius: 8 },
 });
