@@ -1,16 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
 import StoreListScreen from '../screens/StoreListScreen';
 import CartScreen from '../screens/CartScreen';
 import OrdersScreen from '../screens/OrdersScreen';
-import { Ionicons } from '@expo/vector-icons';
-import { CartContext } from '../context/CartContext';
-import { View, Text, StyleSheet } from 'react-native';
+import { useCart } from '../context/CartContext';
 
 const Tab = createBottomTabNavigator();
 
 const BuyerTabs = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems } = useCart(); // ✅ SAFE
 
   return (
     <Tab.Navigator
@@ -19,14 +20,14 @@ const BuyerTabs = () => {
         tabBarActiveTintColor: '#4CAF50',
         tabBarInactiveTintColor: '#888',
         tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap = 'alert-circle-outline'; // default
-
-          if (route.name === 'Stores') iconName = 'storefront-outline';
-          else if (route.name === 'Cart') iconName = 'cart-outline';
-          else if (route.name === 'Orders') iconName = 'receipt-outline';
+          let iconName: keyof typeof Ionicons.glyphMap =
+            route.name === 'Stores'
+              ? 'storefront-outline'
+              : route.name === 'Cart'
+              ? 'cart-outline'
+              : 'receipt-outline';
 
           if (route.name === 'Cart' && cartItems.length > 0) {
-            // Badge for cart
             return (
               <View>
                 <Ionicons name={iconName} size={size} color={color} />
