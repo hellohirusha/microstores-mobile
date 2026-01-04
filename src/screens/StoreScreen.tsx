@@ -1,30 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
-import { getProductsByStore } from '../services/api';
+import React from 'react';
+import { View, FlatList, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  stock: number;
-};
+import { DEMO_PRODUCTS } from '../data/demoProducts';
 
 const StoreScreen = () => {
   const route = useRoute<any>();
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const { storeId } = route.params;
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getProductsByStore(storeId)
-      .then(data => setProducts(data))
-      .finally(() => setLoading(false));
-  }, [storeId]);
-
-  if (loading) return <ActivityIndicator size="large" style={{ flex: 1 }} />;
+  const products = DEMO_PRODUCTS[storeId] || [];
 
   return (
     <View style={styles.container}>
@@ -34,11 +18,15 @@ const StoreScreen = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
-            onPress={() => navigation.navigate('Product', { productId: item.id })}
+            onPress={() =>
+              navigation.navigate('Product', { productId: item.id, storeId })
+            }
           >
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>${item.price.toFixed(2)}</Text>
-            <Text style={styles.stock}>Stock: {item.stock}</Text>
+            <Image source={item.image} style={styles.image} />
+            <View style={styles.info}>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+            </View>
           </TouchableOpacity>
         )}
       />
@@ -48,10 +36,18 @@ const StoreScreen = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
-  card: { padding: 16, marginBottom: 12, backgroundColor: '#fff', borderRadius: 8, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: { width: 0, height: 2 }, shadowRadius: 4, elevation: 2 },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginBottom: 12,
+    padding: 10,
+    elevation: 2,
+  },
+  image: { width: 70, height: 70, borderRadius: 8 },
+  info: { marginLeft: 12, justifyContent: 'center' },
   name: { fontSize: 16, fontWeight: 'bold' },
-  price: { marginTop: 4, fontSize: 14, color: '#007bff' },
-  stock: { marginTop: 2, fontSize: 12, color: '#555' },
+  price: { fontSize: 14, color: '#4CAF50' },
 });
 
 export default StoreScreen;
