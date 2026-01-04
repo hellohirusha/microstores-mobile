@@ -1,37 +1,19 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { CartProvider } from './src/context/CartContext';
+import BuyerStack from './src/navigation/BuyerStack';
 
-import StoreListScreen from './src/screens/StoreListScreen';
-import StoreScreen from './src/screens/StoreScreen';
-import ProductScreen from './src/screens/ProductScreen';
+const RootStack = createNativeStackNavigator();
 
-const Stack = createNativeStackNavigator();
-
-const App = () => {
+export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="StoreList"
-          component={StoreListScreen}
-          options={{ title: 'Stores' }}
-        />
-
-        <Stack.Screen
-          name="Store"
-          component={StoreScreen}
-          options={{ title: 'Store' }}
-        />
-
-        <Stack.Screen
-          name="Product"
-          component={ProductScreen}
-          options={{ title: 'Product Details' }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <CartProvider>
+      <NavigationContainer>
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          <RootStack.Screen name="BuyerRoot" component={BuyerStack} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
   );
-};
-
-export default App;
+}

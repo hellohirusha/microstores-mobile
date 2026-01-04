@@ -17,7 +17,6 @@ const StoreScreen = () => {
   const navigation = useNavigation();
   const { storeId, storeName } = route.params;
 
-  // Filter products by storeId
   const products: Product[] = DEMO_PRODUCTS.filter(p => p.storeId === storeId);
 
   const renderItem = ({ item }: { item: Product }) => (

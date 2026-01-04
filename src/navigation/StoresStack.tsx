@@ -6,14 +6,26 @@ import ProductScreen from '../screens/ProductScreen';
 
 const Stack = createNativeStackNavigator();
 
-const StoresStack = () => {
+export default function StoresStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }}>
-      <Stack.Screen name="StoreList" component={StoreListScreen} options={{ title: 'Stores' }} />
-      <Stack.Screen name="Store" component={StoreScreen} options={{ title: 'Store Products' }} />
-      <Stack.Screen name="Product" component={ProductScreen} options={{ title: 'Product Details' }} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="StoreList"
+        component={StoreListScreen}
+        options={{ title: 'Stores' }}
+      />
+      <Stack.Screen
+        name="Store"
+        component={StoreScreen}
+        options={({ route }) => ({
+          title: route.params?.storeName || 'Store',
+        })}
+      />
+      <Stack.Screen
+        name="Product"
+        component={ProductScreen}
+        options={{ title: 'Product Details' }}
+      />
     </Stack.Navigator>
   );
-};
-
-export default StoresStack;
+}

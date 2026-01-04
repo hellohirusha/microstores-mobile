@@ -11,7 +11,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 const BuyerTabs = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
 
   return (
     <Tab.Navigator
@@ -26,12 +26,12 @@ const BuyerTabs = () => {
           else if (route.name === 'Cart') iconName = 'cart-outline';
           else if (route.name === 'Orders') iconName = 'receipt-outline';
 
-          if (route.name === 'Cart' && cartItems.length > 0) {
+          if (route.name === 'Cart' && cart.length > 0) {
             return (
               <View>
                 <Ionicons name={iconName} size={size} color={color} />
                 <View style={styles.badge}>
-                  <Text style={styles.badgeText}>{cartItems.length}</Text>
+                  <Text style={styles.badgeText}>{cart.length}</Text>
                 </View>
               </View>
             );
