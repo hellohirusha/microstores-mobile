@@ -1,10 +1,10 @@
-import React from 'react';
+// src/navigation/BuyerTabs.tsx
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import StoresStack from './StoresStack'; // <- changed
+import StoresStack from './StoresStack';
 import CartScreen from '../screens/CartScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import { Ionicons } from '@expo/vector-icons';
-import { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 import { View, Text, StyleSheet } from 'react-native';
 
@@ -41,7 +41,7 @@ const BuyerTabs = () => {
         },
       })}
     >
-      <Tab.Screen name="Stores" component={StoresStack} /> {/* <- changed */}
+      <Tab.Screen name="Stores" component={StoresStack} />
       <Tab.Screen name="Cart" component={CartScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
     </Tab.Navigator>
