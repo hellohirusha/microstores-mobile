@@ -1,44 +1,39 @@
 import React, { createContext, useState, ReactNode } from 'react';
 
-type CartItem = { productId: number; quantity: number; name: string; price: number };
+type CartItem = {
+  productId: string;
+  quantity: number;
+};
+
 type CartContextType = {
-  cart: CartItem[];
+  cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (productId: number) => void;
+  removeFromCart: (productId: string) => void;
   clearCart: () => void;
 };
 
 export const CartContext = createContext<CartContextType>({
-  cart: [],
+  cartItems: [],
   addToCart: () => {},
   removeFromCart: () => {},
   clearCart: () => {},
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const addToCart = (item: CartItem) => {
-    setCart(prev => {
-      const exists = prev.find(i => i.productId === item.productId);
-      if (exists) {
-        return prev.map(i =>
-          i.productId === item.productId ? { ...i, quantity: i.quantity + item.quantity } : i
-        );
-      } else {
-        return [...prev, item];
-      }
-    });
+    setCartItems(prev => [...prev, item]);
   };
 
-  const removeFromCart = (productId: number) => {
-    setCart(prev => prev.filter(i => i.productId !== productId));
+  const removeFromCart = (productId: string) => {
+    setCartItems(prev => prev.filter(i => i.productId !== productId));
   };
 
-  const clearCart = () => setCart([]);
+  const clearCart = () => setCartItems([]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

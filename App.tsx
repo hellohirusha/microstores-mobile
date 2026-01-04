@@ -21,8 +21,8 @@ export default function App() {
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
-        'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
+        'Roboto-Regular': require('./src/assets/fonts/Roboto-Regular.ttf'),
+        'Roboto-Bold': require('./src/assets/fonts/Roboto-Bold.ttf'),
       });
       setFontsLoaded(true);
       await SplashScreen.hideAsync();
