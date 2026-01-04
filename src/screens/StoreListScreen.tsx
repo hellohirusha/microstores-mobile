@@ -40,7 +40,7 @@ const DEMO_STORES: Store[] = [
   },
   {
     id: 4,
-    name: 'Book Haven',
+    name: 'Book Heaven',
     description: 'Books, stationery, and study materials',
     icon: 'book-outline',
   },
