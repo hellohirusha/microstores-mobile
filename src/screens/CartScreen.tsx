@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
-import { useCart } from '../context/CartContext'; // ✅ use the hook
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
 import { useNavigation } from '@react-navigation/native';
 
 const CartScreen = () => {
-  const { cart = [], removeFromCart } = useCart(); // fallback to [] prevents early crashes
+  const { cart, removeFromCart, clearCart } = useContext(CartContext);
   const navigation = useNavigation();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
