@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "microstores-mobile",
+    "name": "MicroStore",
     "slug": "microstores-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,13 +21,19 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.hellohirusha.microstoresmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cea68fa7-15a1-4424-8c75-ef013c02cc8c"
+      }
+    }
   }
 }
