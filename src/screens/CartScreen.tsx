@@ -1,47 +1,108 @@
-import React from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+} from 'react-native';
 import { CartContext } from '../context/CartContext';
-import { useNavigation } from '@react-navigation/native';
+import { OrdersContext } from '../context/OrdersContext';
+import { Ionicons } from '@expo/vector-icons';
 
 const CartScreen = () => {
   const { cart, removeFromCart, clearCart } = useContext(CartContext);
-  const navigation = useNavigation();
+  const { addOrders } = useContext(OrdersContext);
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const handlePurchase = () => {
+    const purchasedItems = cart.map(item => ({
+      orderId: `${Date.now()}-${item.id}`,
+      productId: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+      purchasedAt: new Date().toLocaleString(),
+    }));
+
+    addOrders(purchasedItems);
+    clearCart();
+
+    Alert.alert(
+      'Purchase Successful',
+      'You have purchased your product/s. Check Order page for more info.'
+    );
+  };
+
+  if (cart.length === 0) {
+    return (
+      <View style={styles.center}>
+        <Text style={styles.empty}>Your cart is empty.</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      {cart.length === 0 ? (
-        <Text style={styles.emptyText}>Your cart is empty</Text>
-      ) : (
-        <>
-          <FlatList
-            data={cart}
-            keyExtractor={item => item.productId.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text>Qty: {item.quantity}</Text>
-                <Text>${(item.price * item.quantity).toFixed(2)}</Text>
-                <Button title="Remove" onPress={() => removeFromCart(item.productId)} />
-              </View>
-            )}
-          />
-          <Text style={styles.total}>Total: ${total.toFixed(2)}</Text>
-          <Button title="Checkout" onPress={() => navigation.navigate('Checkout')} />
-        </>
-      )}
+      {/* Remove all */}
+      <TouchableOpacity style={styles.removeAll} onPress={clearCart}>
+        <Text style={styles.removeAllText}>Remove All</Text>
+      </TouchableOpacity>
+
+      <FlatList
+        data={cart}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Image source={item.image} style={styles.image} />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text>Qty: {item.quantity}</Text>
+              <Text>${(item.price * item.quantity).toFixed(2)}</Text>
+            </View>
+            <TouchableOpacity onPress={() => removeFromCart(item.id)}>
+              <Ionicons name="trash-outline" size={22} color="red" />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+
+      <TouchableOpacity style={styles.purchaseBtn} onPress={handlePurchase}>
+        <Text style={styles.purchaseText}>Purchase</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { marginTop: 45, flex: 1, padding: 16 },
-  card: { padding: 12, backgroundColor: '#fff', marginBottom: 8, borderRadius: 8 },
+  container: { flex: 1, padding: 16 },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  empty: { fontSize: 16, color: '#555' },
+
+  removeAll: { alignSelf: 'flex-end', marginBottom: 10 },
+  removeAllText: { color: 'red', fontWeight: 'bold' },
+
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: '#fff',
+    marginBottom: 10,
+    borderRadius: 8,
+  },
+  image: { width: 60, height: 60, borderRadius: 8, marginRight: 12 },
   name: { fontWeight: 'bold', fontSize: 16 },
-  total: { fontSize: 18, fontWeight: 'bold', marginVertical: 16 },
-  emptyText: { textAlign: 'center', marginTop: 20, fontSize: 16, color: '#555' },
+
+  purchaseBtn: {
+    backgroundColor: '#4CAF50',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  purchaseText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });
 
 export default CartScreen;
