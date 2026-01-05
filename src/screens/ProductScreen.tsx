@@ -19,7 +19,6 @@ const ProductScreen = () => {
   const { addToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
 
-  // Find product safely
   const product: Product | undefined = useMemo(() => {
     return DEMO_PRODUCTS.find(p => p.id === Number(productId));
   }, [productId]);
