@@ -77,7 +77,7 @@ const CartScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
+  container: { marginTop: 45, flex: 1, padding: 16 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   empty: { fontSize: 16, color: '#555' },
 
