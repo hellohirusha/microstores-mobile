@@ -28,7 +28,7 @@ export const DEMO_PRODUCTS: DemoProduct[] = [
   {
     id: 3,
     storeId: 1,
-    name: "Milk Pack",
+    name: "Liquid Milk",
     price: 1.2,
     stock: 60,
     image: require("../assets/images/products/milk.jpg"),

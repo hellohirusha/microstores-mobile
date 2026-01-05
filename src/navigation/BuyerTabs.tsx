@@ -1,9 +1,9 @@
-// src/navigation/BuyerTabs.tsx
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StoresStack from './StoresStack';
 import CartScreen from '../screens/CartScreen';
 import OrdersScreen from '../screens/OrdersScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { CartContext } from '../context/CartContext';
 import { View, Text, StyleSheet } from 'react-native';
@@ -25,7 +25,9 @@ const BuyerTabs = () => {
           if (route.name === 'Stores') iconName = 'storefront-outline';
           else if (route.name === 'Cart') iconName = 'cart-outline';
           else if (route.name === 'Orders') iconName = 'receipt-outline';
+          else if (route.name === 'Profile') iconName = 'person-outline';
 
+          // Badge for Cart
           if (route.name === 'Cart' && cart.length > 0) {
             return (
               <View>
@@ -44,6 +46,7 @@ const BuyerTabs = () => {
       <Tab.Screen name="Stores" component={StoresStack} />
       <Tab.Screen name="Cart" component={CartScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

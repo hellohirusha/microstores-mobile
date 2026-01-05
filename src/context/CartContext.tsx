@@ -1,4 +1,5 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode, useContext } from "react";
+import { ProductContext } from "./ProductContext";
 
 type CartItem = {
   id: number;
@@ -26,15 +27,15 @@ export const CartContext = createContext<CartContextType>({
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const { decreaseStock, increaseStock } = useContext(ProductContext);
 
   const addToCart = (item: CartItem) => {
     setCart(prev => {
       const existing = prev.find(p => p.id === item.id);
+      decreaseStock(item.id, item.quantity); // decrease stock immediately
       if (existing) {
         return prev.map(p =>
-          p.id === item.id
-            ? { ...p, quantity: p.quantity + item.quantity }
-            : p
+          p.id === item.id ? { ...p, quantity: p.quantity + item.quantity } : p
         );
       }
       return [...prev, item];
@@ -42,22 +43,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeFromCart = (productId: number) => {
-    setCart(prev => prev.filter(item => item.id !== productId));
+    setCart(prev => {
+      const removedItem = prev.find(p => p.id === productId);
+      if (removedItem) {
+        increaseStock(productId, removedItem.quantity); // restore stock
+      }
+      return prev.filter(item => item.id !== productId);
+    });
   };
 
   const clearCart = () => {
+    cart.forEach(item => increaseStock(item.id, item.quantity)); // restore stock for all items
     setCart([]);
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        removeFromCart,
-        clearCart,
-      }}
-    >
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

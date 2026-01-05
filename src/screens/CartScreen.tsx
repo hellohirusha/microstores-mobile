@@ -32,7 +32,7 @@ const CartScreen = () => {
 
     Alert.alert(
       'Purchase Successful',
-      'You have purchased your product/s. Check Order page for more info.'
+      'You have purchased your product/s. Check Orders page for more info.'
     );
   };
 
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   empty: { fontSize: 16, color: '#555' },
 
-  removeAll: { alignSelf: 'flex-end', marginBottom: 10 },
-  removeAllText: { color: 'red', fontWeight: 'bold' },
+  removeAll: { alignSelf: 'flex-end', marginBottom: 20 },
+  removeAllText: { color: 'red', fontWeight: 'bold', fontSize: 15, },
 
   card: {
     flexDirection: 'row',
